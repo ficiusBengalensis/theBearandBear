@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine ❤️</title>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden { display: none; }
+
+/* Card */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 360px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  animation: pop 0.7s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+img {
+  width: 100%;
+  max-width: 220px;
+  margin: 15px auto;
+  display: block;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+  position: relative;
+}
+
+button {
+  padding: 12px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+}
+
+#yesBtn { background: #4caf50; color: white; }
+#noBtn { background: #f44336; color: white; }
+
+/* Continue button */
+.continueBtn {
+  background: #ff4fa3;
+  color: white;
+  box-shadow: 0 6px 15px rgba(255,79,163,0.4);
+}
+.continueBtn:hover {
+  background: #ff2f92;
+  transform: scale(1.05);
+}
+
+/* Hearts */
+.heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: 24px;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  to { transform: translateY(-110vh) scale(1.4); opacity: 0; }
+}
+
+/* Fireworks */
+.firework {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: gold;
+  border-radius: 50%;
+  animation: explode 1s ease-out forwards;
+}
+@keyframes explode {
+  to { transform: translate(var(--x), var(--y)); opacity: 0; }
+}
+
+/* Watermark */
+.watermark {
+  position: fixed;
+  bottom: 12px;
+  right: 18px;
+  font-size: 16px;   /* increased */
+  color: rgba(255,255,255,0.7);
+  pointer-events: none;
+  user-select: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="watermark">Created by The Bear 🐻</div>
+
+<!-- NAME CARD -->
+<div class="card" id="nameCard">
+  <h2>What's your name? 😊</h2>
+  <input id="nameInput" placeholder="Enter your name"
+         style="padding:10px;width:90%;font-size:16px">
+  <br><br>
+  <button class="continueBtn" onclick="start()">Continue ❤️</button>
+</div>
+
+<!-- MAIN CARD -->
+<div class="card hidden" id="mainCard">
+  <h1 id="question"></h1>
+  <img src="https://thumbs.dreamstime.com/b/adorable-panda-cub-holding-red-roses-heart-bokeh-background-th-february-happy-valentine-s-day-356847431.jpg?w=992" alt="love">
+
+  <div class="buttons">
+    <button id="yesBtn">YES 😍</button>
+    <button id="noBtn">NO 😒</button>
+  </div>
+</div>
+
+<!-- SUCCESS CARD -->
+<div class="card hidden" id="successCard">
+  <h1 id="successText"></h1>
+  <img src="https://i.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" style="width:260px">
+
+  <br>
+  <button id="shareBtn" style="background:#25D366;color:white">
+    Share on WhatsApp 💌
+  </button>
+</div>
+
+<script>
+const nameInput = document.getElementById("nameInput");
+const nameCard = document.getElementById("nameCard");
+const mainCard = document.getElementById("mainCard");
+const successCard = document.getElementById("successCard");
+const question = document.getElementById("question");
+const successText = document.getElementById("successText");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const shareBtn = document.getElementById("shareBtn");
+
+let userName = "";
+let yesScale = 1;
+
+function start() {
+  userName = nameInput.value || "You";
+  nameCard.classList.add("hidden");
+  mainCard.classList.remove("hidden");
+  question.innerText = `Hey ${userName}, will you be my Valentine? 💖`;
+}
+
+noBtn.addEventListener("click", e => e.preventDefault());
+
+noBtn.addEventListener("mouseenter", () => {
+  noBtn.style.transform = "translate(0,0)";
+  const x = Math.random() * 120 - 60;
+  const y = Math.random() * 80 - 40;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+  yesScale += 0.15;
+  yesBtn.style.transform = `scale(${yesScale})`;
+});
+
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "❤️";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.animationDuration = 4 + Math.random() * 4 + "s";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 8000);
+}, 500);
+
+function crackers() {
+  for (let i = 0; i < 40; i++) {
+    const f = document.createElement("div");
+    f.className = "firework";
+    f.style.left = Math.random() * 100 + "vw";
+    f.style.top = Math.random() * 100 + "vh";
+    f.style.setProperty("--x", `${Math.random()*300-150}px`);
+    f.style.setProperty("--y", `${Math.random()*300-150}px`);
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 1000);
+  }
+}
+
+yesBtn.addEventListener("click", () => {
+  mainCard.classList.add("hidden");
+  successCard.classList.remove("hidden");
+  successText.innerText = `Yayyy ${userName} ❤️🎉 You are my Valentine!`;
+  crackers();
+  setInterval(crackers, 1200);
+});
+
+shareBtn.addEventListener("click", async () => {
+  const canvas = await html2canvas(successCard);
+  const imgData = canvas.toDataURL("image/png");
+  const a = document.createElement("a");
+  a.href = imgData;
+  a.download = "valentine_yes.png";
+  a.click();
+
+  const msg = "I just said YES ❤️💖";
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
+});
+</script>
+
+</body>
+</html>
