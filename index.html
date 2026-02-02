@@ -20,6 +20,7 @@ body {
 
 .hidden { display: none; }
 
+
 .card {
   background: white;
   padding: 30px;
@@ -42,6 +43,7 @@ img {
   display: block;
 }
 
+/* Buttons */
 .buttons {
   display: flex;
   justify-content: center;
@@ -61,10 +63,12 @@ button {
 #yesBtn { background: #4caf50; color: white; }
 #noBtn { background: #f44336; color: white; }
 
+
 .continueBtn {
   background: #ff4fa3;
   color: white;
 }
+
 
 .shareBtn {
   background: #25D366;
@@ -72,16 +76,17 @@ button {
   margin-top: 15px;
 }
 
+
 .heart {
   position: absolute;
   bottom: -40px;
   font-size: 24px;
   animation: floatUp linear infinite;
 }
-
 @keyframes floatUp {
   to { transform: translateY(-110vh) scale(1.4); opacity: 0; }
 }
+
 
 .firework {
   position: absolute;
@@ -91,10 +96,10 @@ button {
   border-radius: 50%;
   animation: explode 1s ease-out forwards;
 }
-
 @keyframes explode {
   to { transform: translate(var(--x), var(--y)); opacity: 0; }
 }
+
 
 .watermark {
   position: fixed;
@@ -109,9 +114,9 @@ button {
 
 <body>
 
-<div class="watermark">Created by The Bear 🐻</div>
+<div class="watermark">Made by the Bear 🐻</div>
 
-<!-- NAME CARD -->
+
 <div class="card" id="nameCard">
   <h2>Please enter your name 😊</h2>
   <input id="nameInput" placeholder="Enter your name"
@@ -120,7 +125,7 @@ button {
   <button class="continueBtn" onclick="start()">Continue ❤️</button>
 </div>
 
-<!-- MAIN CARD -->
+
 <div class="card hidden" id="mainCard">
   <h1 id="question"></h1>
   <img src="https://thumbs.dreamstime.com/b/adorable-panda-cub-holding-red-roses-heart-bokeh-background-th-february-happy-valentine-s-day-356847431.jpg?w=992">
@@ -131,7 +136,7 @@ button {
   </div>
 </div>
 
-<!-- SUCCESS CARD -->
+
 <div class="card hidden" id="successCard">
   <h1 id="successText"></h1>
   <img src="https://i.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" style="width:260px">
@@ -142,7 +147,9 @@ button {
 </div>
 
 <script>
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbwUC19r_joQK_g68R36PXYV3FZk4NjnPGrdZNvF6hJJ4iW126jMcT-9dZX0Ms8eObvj/exec";
+
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbycQZjCs5KD-b0lKcOPirfbGGhDeQSlbFvWmIxUjzfdiIQaIJAJEitECtmoBQtHoVv1/exec";
+
 
 const nameInput = document.getElementById("nameInput");
 const nameCard = document.getElementById("nameCard");
@@ -158,20 +165,20 @@ let userName = "";
 let yesScale = 1;
 let submitted = false;
 
-/* SAVE ONLY YES */
+
 function saveResponse() {
   if (submitted) return;
   submitted = true;
 
   fetch(SHEET_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       name: userName,
-      response: "YES"
+      response: "I said Yes.."
     })
   });
 }
+
 
 function start() {
   userName = nameInput.value || "Someone";
@@ -180,7 +187,7 @@ function start() {
   question.innerText = `Hey ${userName}, will you be my Valentine? 💖`;
 }
 
-/* NO BUTTON — UNCHANGED PRANK */
+
 noBtn.addEventListener("click", e => e.preventDefault());
 
 noBtn.addEventListener("mouseenter", () => {
@@ -192,7 +199,7 @@ noBtn.addEventListener("mouseenter", () => {
   yesBtn.style.transform = `scale(${yesScale})`;
 });
 
-/* YES BUTTON */
+
 yesBtn.addEventListener("click", () => {
   saveResponse();
 
@@ -203,7 +210,7 @@ yesBtn.addEventListener("click", () => {
   setInterval(crackers, 1200);
 });
 
-/* SHARE ON WHATSAPP */
+
 shareBtn.addEventListener("click", async () => {
   const canvas = await html2canvas(successCard);
   const imgData = canvas.toDataURL("image/png");
@@ -213,11 +220,11 @@ shareBtn.addEventListener("click", async () => {
   a.download = "valentine_yes.png";
   a.click();
 
-  const msg = "I just said YES ❤️";
+  const msg = "I just said YES..";
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
 });
 
-/* HEARTS */
+
 setInterval(() => {
   const h = document.createElement("div");
   h.className = "heart";
@@ -228,7 +235,7 @@ setInterval(() => {
   setTimeout(() => h.remove(), 8000);
 }, 500);
 
-/* FIREWORKS */
+
 function crackers() {
   for (let i = 0; i < 40; i++) {
     const f = document.createElement("div");
